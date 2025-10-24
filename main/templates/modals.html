@@ -1,0 +1,145 @@
+    {% comment %} /////////////// Modal de form /////////////// {% endcomment %}
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    {% if title == "Familias" %}
+                        <h5 class="modal-title" id="modalLabel">Añadir Nueva Familia</h5>
+                    {% elif title == "Especies" %}
+                        <h5 class="modal-title" id="modalLabel">Añadir Nueva Especie</h5>
+                    {% elif title == "Especímenes" %}
+                        <h5 class="modal-title" id="modalLabel">Añadir Nuevo Especimen</h5>
+                    {% elif title == "Usuarios" %}
+                        <h5 class="modal-title" id="modalLabel">Añadir Nuevo Usuario</h5>
+                    {% elif title == "Galería" %}
+                        <h5 class="modal-title" id="modalLabel">Añadir Nueva Imagen</h5>
+                    {% elif title == "Manejo" or title == "Recursos" %}
+                        <h5 class="modal-title" id="modalLabel">Añadir Nuevo Recurso - {{ subtitle }}</h5>
+                    {% endif %}
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <form id="familiaForm" method="post" action="{% url 'main:add' %}" enctype="multipart/form-data">
+                        {% csrf_token %}
+
+                        {% if title == "Usuarios" %}
+                            <input type="hidden" name="go_to" value="{{ title }}"> 
+                            <div class="form-group">
+                                {{ form.username.label_tag }}
+                                {{ form.username }}
+                            </div>
+                            <div class="form-group"><br>
+                                {{ form.email.label_tag }}
+                                {{ form.email }}
+                            </div>
+                            <div class="form-group"><br>
+                                {{ form.password1.label_tag }}
+                                <input type="password" name="password1" class="form-control" placeholder="****************" required id="id_password1_helptext"><br>
+                                <small class="form-text text-muted">{{ form.password1.help_text }}</small>
+                            </div>
+                            <div class="form-group">
+                                {{ form.password2.label_tag }}
+                                <input type="password" name="password2" class="form-control" placeholder="****************" required id="id_password2_helptext">
+                                <small class="form-text text-muted">{{ form.password2.help_text }}</small>
+                            </div>
+                            <br>
+
+                        {% else %}
+                            {% if title == "Manejo" or title == "Recursos" %}
+                                <input type="hidden" name="go_to" value="{{ subtitle }}"> 
+                            {% else %}
+                                <input type="hidden" name="go_to" value="{{ title }}"> 
+                            {% endif%}
+                            {{ form.as_p }}  <!-- Renderizar el formulario -->
+                        {% endif %}
+
+                        <div class="title-container"><br><button type="submit" class="btn green-gradient btn-custom-hover">Guardar</button></div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    {% comment %} /////////////// Modal de form /////////////// {% endcomment %}
+
+
+    {% comment %} /////////////// Modal DELETE form /////////////// {% endcomment %}
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalLabel">Mover a Papelera</h5>
+                </div>
+                <div class="modal-body">
+                    <form id="deleteform" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <input type="hidden" id="deleteId" name="deleteId" value="">
+                        {% if title == "Manejo" or title == "Recursos" %}
+                            <input type="hidden" name="go_to" value="{{ subtitle }}">
+                        {% else %}
+                            <input type="hidden" name="go_to" value="{{ title }}"> 
+                        {% endif %}
+                        <div class="nav-options"><br>
+                            <h5>¿Está seguro que desea eliminar este elemento?</h5><br>
+                            {% comment %} Lista de dependientes  {% endcomment %}
+                            <div id="dependientes" style="color: red;"></div>
+                        </div><br>
+                        <div class="title-container">
+                            <button type="button" class="btn green-gradient btn-custom-hover" data-dismiss="modal" onclick="hideit()">Cancelar</button>
+                            <button id="Delete" type="submit" class="btn red-gradient">Eliminar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% comment %} /////////////// Modal DELETE form /////////////// {% endcomment %}
+
+
+    {% comment %} /////////////// Modal UPDATE form /////////////// {% endcomment %}
+    <div class="modal fade" id="confirmModalFamilia" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="confirmModalLabel">Confirmar Asociación</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="hideit()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                <div class="modal-body">
+                    ¿Estás seguro que deseas asociar esta imagen a ?<br><br>
+                
+                    <div class="title-container">
+                        <button type="button" class="btn red-gradient" data-dismiss="modal" onclick="hideit()">Cancelar</button>
+                        <button type="button" class="btn green-gradient btn-custom-hover" id="confirmSubmit" onclick="relateImg('{{ form.familiy.value }}', '{{ form.photo_name.value }}', 'Familias')">Confirmar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal fade" id="confirmModalEspecie" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="confirmModalLabel">Confirmar Asociación</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="hideit()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                <div class="modal-body">
+                    ¿Estás seguro que deseas asociar esta imagen a ?<br><br>
+                
+                    <div class="title-container">
+                        <button type="button" class="btn red-gradient" data-dismiss="modal" onclick="hideit()">Cancelar</button>
+                        <button type="button" class="btn green-gradient btn-custom-hover" id="confirmSubmit" onclick="relateImg('{{ form.species.value }}', '{{ form.photo_name.value }}', 'Especies')">Confirmar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% comment %} /////////////// Modal UPDATE form /////////////// {% endcomment %}

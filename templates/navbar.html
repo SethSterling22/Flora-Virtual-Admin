@@ -1,0 +1,199 @@
+{% load static %}
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Admin-Flora - Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+    <link rel="icon" type="image/png" href="{% static 'images/icono-flora.ico' %}">
+
+    <!--  Styles for main-->
+    <link href="{% static 'css/main.css' %}" rel="stylesheet">
+    <script src="{% static 'js/searchBar.js' %}"></script>
+</head>
+
+
+<aside>
+
+    {% comment %} ////////// Mensaje de error ////////// {% endcomment %}
+    {% include 'error.html' %}
+    {% comment %} ////////// Mensaje de error ////////// {% endcomment %}
+
+    <div class="container-fluid h-100" style="padding: 0;">
+        <div class="h-100">
+
+            <!-- Barra lateral -->
+            <div class="col-md-3 col-lg-2 sidebar">
+                <div class="text-center">
+                    <img id="logo" src="{% static 'images/logo-flora.png' %}" alt="logo" style="height: 38px;">
+                </div><hr>
+
+                {% comment %} Elementos de la barra lateral {% endcomment %}
+                <div class="options-container">
+                    <div class="nav-options">
+                        <a class="nav-link active" href="?item=Familias" data-url="{% url 'main:content' %}" data-item="Familias">
+                            <img src="{% static 'images/iconos/Familia-icon.png' %}" alt="logo" style="width: 3vh; margin-right: 5px;">
+                            <span>Familias</span>
+                        </a>
+                        <a class="nav-link" href="?item=Especies" data-url="{% url 'main:content' %}" data-item="Especies">
+                            <img src="{% static 'images/iconos/Especies-icon.png' %}" alt="logo" style="width: 3vh; margin-right: 5px;">
+                            <span>Especies</span>
+                        </a>
+                        <a class="nav-link" href="?item=Especímenes" data-url="{% url 'main:content' %}" data-item="especimen">
+                            <img src="{% static 'images/iconos/Especimenes-icon.png' %}" alt="logo" style="width: 3vh; margin-right: 5px;">
+                            <span>Especímenes</span>
+                        </a>
+                        <a class="nav-link" href="?item=Recursos&recurso=Glosario">
+                            <img src="{% static 'images/iconos/recursos-icon.png' %}" alt="logo" style="width: 3vh; margin-right: 5px;">
+                            <span>Recursos</span>
+                        </a>
+                        <a class="nav-link" href="?item=Manejo&recurso=Colectores">
+                            <img src="{% static 'images/iconos/manejo.png' %}" alt="logo" style="width: 3vh; margin-right: 5px;">
+                            <span>Manejo</span>
+                        </a>
+                        <a class="nav-link" href="?item=Galería">
+                            <img src="{% static 'images/iconos/Especies-photo-icon.png' %}" alt="logo" style="width: 3vh; margin-right: 5px;">
+                            <span>Galería</span>
+                        </a>
+                        <a class="nav-link" href="?item=Usuarios">
+                            <img src="{% static 'images/iconos/usuarios-icon.png' %}" alt="logo" style="width: 3vh; margin-right: 5px;">
+                            <span>Usuarios</span>
+                        </a>
+                        <a class="nav-link" href="?item=Historial"  data-url="#">
+                            <img src="{% static 'images/iconos/history-icon.png' %}" alt="logo" style="width: 3vh; margin-right: 5px;">
+                            <span>Historial</span>
+                        </a>
+                        
+                    </div>
+                <a href="{% url 'login:logout' %}" id="logout" class="nav-link" style="margin-bottom: 15vh;">
+                    <img src="{% static 'images/exit.png' %}" alt="Cerrar sesión" title="Cerrar sesión" style="width: 3vh; margin-right: 5px;">
+                    <span>Cerrar Sesión</span> 
+                </a>
+                </div>
+                {% comment %} Elementos de la barra lateral {% endcomment %}
+                
+            </div>
+
+            {% comment %} Barra para oculatar el sidebar {% endcomment %}
+            <div class="sidebar-hide internal-shadow" onclick="toggleSidebar();">
+                <i class="arrow left"></i>
+            </div>
+            {% comment %} Barra para oculatar el sidebar {% endcomment %}
+
+            <!-- Barra superior -->
+            <div class="col-md-9 col-lg-10 w-100 internal-shadow">
+                <nav class="navbar navbar-light bg-light green-gradient">
+                    <div class="container-fluid" style="justify-content: flex-end;">
+                        {% if user.username %}
+                            <span class="navbar-brand mb-0 h1 text-white">Usuario: {{ user.username }}</span>
+                        {% else %}
+                            <span class="navbar-brand mb-0 h1 text-white">Usuario: Invitado</span>
+                        {% endif %}
+                    </div>
+                </nav>
+            </div>
+            <!-- Barra superior -->
+            
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    {% comment %} <script src="{% static 'js/loadContent.js' %}"></script> {% endcomment %}
+    <script>
+
+        document.addEventListener('DOMContentLoaded', () => {
+
+            const title = '{{ title }}'; // Obtener el título desde la plantilla
+        
+            document.querySelectorAll('.nav-link').forEach(link => {
+                // Remover la clase 'active' de todos los enlaces
+                link.classList.remove('active');
+        
+                // Comprobar si el enlace coincide con el título
+                if (link.textContent.trim() === title) {
+                    link.classList.add('active'); // Añadir la clase 'active' al enlace que coincide
+                }
+        
+                link.addEventListener('click', function(event) {
+                    // Remover la clase 'active' de los enlaces
+                    document.querySelectorAll('.nav-link').forEach(nav => {
+                        nav.classList.remove('active');
+                    });
+                    
+                    // Añadir la clase 'active' al enlace que fue clickeado
+                    this.classList.add('active');
+                });
+            });
+        });
+
+
+        /////////////// Movimiento de sidebar ///////////////
+        function toggleSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            const arrow = document.querySelector('.arrow.left');
+            const sidebarHide = document.querySelector('.sidebar-hide');
+            const content = document.querySelector('.content-layaout');
+        
+            const navLinks = document.querySelectorAll('.nav-link');
+            const logo = document.getElementById('logo');
+        
+            sidebar.classList.toggle('collapsed');
+            
+            // Ajustar la posición del sidebar Colapsada
+            if (sidebar.classList.contains('collapsed')) {
+                sidebarHide.style.left = '60px';
+                sidebar.style.width = '60px';
+                sidebar.style.padding = '20px';
+                content.style.marginLeft  = '110px';
+                arrow.style.transform = "rotate(-45deg)";
+                logo.src = '{% static 'images/logo-flora-small.png' %}';
+                navLinks.forEach(link => {
+                    const textNode = link.querySelector('span'); 
+                    if (textNode) {
+                        textNode.style.display = 'none'; 
+                    }
+                });
+        
+            // Ajustar la posición del sidebar Normal
+            } else {
+                sidebarHide.style.left = '230px';
+                sidebar.style.width = '230px';
+                sidebar.style.padding = '30px';
+                content.style.marginLeft  = '290px';
+                arrow.style.transform = "rotate(135deg)";
+                logo.src = '{% static 'images/logo-flora.png' %}';
+                navLinks.forEach(link => {
+                    const textNode = link.querySelector('span'); 
+                    if (textNode) {
+                        textNode.style.display = 'flex'; 
+                    }
+                });
+                
+            }
+        }
+        /////////////// Movimiento de sidebar ///////////////
+
+
+        // Redimensión del logo
+        $(window).on('resize', function() {
+            if ($(window).width() <= 1183) {
+                $('#logo').attr('src', '{% static 'images/logo-flora-small.png' %}');
+            } else {
+                $('#logo').attr('src', '{% static 'images/logo-flora.png' %}');
+            }
+        }).resize();
+
+    </script>
+</aside>
+</html>

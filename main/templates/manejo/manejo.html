@@ -1,0 +1,165 @@
+{% load static %}
+
+{% comment %} /////////////// Selector de recurso /////////////// {% endcomment %}
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item" role="presentation" style="margin: 0 7px;">
+        <a href="?item=Manejo&recurso=Colectores" style="text-decoration: none;">
+            <button class="nav-link nav-selector"  data-bs-toggle="tab" type="button" role="tab" aria-selected="true">Colectores</button>
+        </a>
+    </li>
+    <li class="nav-item" role="presentation" style="margin: 0 7px;">
+        <a href="?item=Manejo&recurso=Códigos" style="text-decoration: none;">
+            <button class="nav-link nav-selector"  data-bs-toggle="tab" type="button" role="tab"  aria-selected="false">Códigos</button>
+        </a>
+    </li>
+    <li class="nav-item" role="presentation" style="margin: 0 7px;">
+        <a href="?item=Manejo&recurso=Divisiones" style="text-decoration: none;">
+            <button class="nav-link nav-selector" data-bs-toggle="tab" type="button" role="tab"  aria-selected="false">Divisiones</button>
+        </a>
+    </li>
+    <li class="nav-item" role="presentation" style="margin: 0 7px;">
+        <a href="?item=Manejo&recurso=Géneros" style="text-decoration: none;">
+            <button class="nav-link nav-selector" data-bs-toggle="tab" type="button" role="tab"  aria-selected="false">Géneros</button>
+        </a>
+    </li>
+</ul><br>
+
+
+{% comment %} /////////////// Selector de búsqueda /////////////// {% endcomment %}
+<div class="options-layout">
+    <input class="form-control" id="myInput" type="text" placeholder="Buscar..." autocomplete="off">
+
+    <button type="button" style="margin: 0 5px;" class="btn red-gradient options-layout" onclick="searchClean('{{ subtitle }}')">
+        <img src="{% static 'images/escoba.png' %}" alt="logo" style="width: 3vh; margin: 5px 5px 3px 0; ">
+        Limpiar
+    </button>
+
+    <button type="button" class="btn green-gradient btn-custom-hover options-layout" onclick="searchIt('{{ subtitle }}')">
+        <img src="{% static 'images/lupa.png' %}" alt="logo" style="width: 3vh; margin: 5px 5px 3px 0; ">
+        Buscar
+    </button>
+</div>
+<div id="options-search" class="dropdown-menu">
+    <div class="dropdown-item" data-value="">Buscar...</div>
+    {% for index in recursos %}
+        {% if subtitle == "Colectores" %}
+            <div class="dropdown-item" data-value="{{ index.colector }}">{{ index.colector }}</div>
+            <div class="dropdown-item" id="no-Results" style="display: none;">No hay resultados</div>
+        {% elif subtitle == "Códigos" %}
+            <div class="dropdown-item" data-value="{{ index.codigo }}">{{ index.codigo }}</div>
+            <div class="dropdown-item" id="no-Results" style="display: none;">No hay resultados</div>
+        {% elif subtitle == "Divisiones" %}
+            <div class="dropdown-item" data-value="{{ index.division }}">{{ index.division }}</div>
+            <div class="dropdown-item" id="no-Results" style="display: none;">No hay resultados</div>
+        {% elif subtitle == "Géneros" %}
+            <div class="dropdown-item" data-value="{{ index.genero }}">{{ index.genero }}</div>
+            <div class="dropdown-item" id="no-Results" style="display: none;">No hay resultados</div>
+        {% endif %}
+    {% endfor %}
+</div>
+{% comment %} /////////////// Selector de búsqueda /////////////// {% endcomment %}
+
+<p>Buscar entre {{ recursos|length }} resultados...</p>
+<br>
+
+
+{% comment %} <div class="table-responsive">  {% endcomment %}
+    {% if subtitle == "Colectores" %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Nombre</th>
+                    {% comment %} Herramientas de Manejo {% endcomment %}
+                    <th>Editar</th>
+                    <th>Eliminar</th>
+                    {% comment %} Herramientas de Manejo {% endcomment %}
+                </tr>
+            </thead>
+            <tbody id="myTable">
+                {% for recurso in page_obj %}
+                <tr>
+                    <td><div></div></td>
+                    <td><div>{{ recurso.colector }}</div></td>
+                    <td><div style="cursor: pointer;" onclick="editItem({{ recurso.id }}, '{{ title }}', '{{ subtitle }}')"><img src="{% static 'images/edit_black.png' %}" alt="logo" style="width: 2vh;"></div></td>
+                    <td><div style="cursor: pointer;" onclick="deleteItem({{ recurso.id }}, '{{ subtitle }}', '{{ recurso.nombre_cientifico }}')"><img src="{% static 'images/delete_black.png' %}" alt="logo" style="width: 1.7vh;"></div></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    {% elif subtitle == "Códigos" %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Código</th>
+                    {% comment %} Herramientas de Manejo {% endcomment %}
+                    <th>Editar</th>
+                    <th>Eliminar</th>
+                    {% comment %} Herramientas de Manejo {% endcomment %}
+                </tr>
+            </thead>
+            <tbody id="myTable">
+                {% for recurso in page_obj %}
+                <tr>
+                    <td></td>
+                    <td><div>{{ recurso.codigo }}</div></td>
+                    <td><div style="cursor: pointer;" onclick="editItem({{ recurso.id }}, '{{ title }}', '{{ subtitle }}')"><img src="{% static 'images/edit_black.png' %}" alt="logo" style="width: 2vh;"></div></td>
+                    <td><div style="cursor: pointer;" onclick="deleteItem({{ recurso.id }}, '{{ subtitle }}', '{{ recurso.nombre_cientifico }}')"><img src="{% static 'images/delete_black.png' %}" alt="logo" style="width: 1.7vh;"></div></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    {% elif subtitle == "Divisiones" %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>División</th>
+                    {% comment %} Herramientas de Manejo {% endcomment %}
+                    <th>Editar</th>
+                    <th>Eliminar</th>
+                    {% comment %} Herramientas de Manejo {% endcomment %}
+                </tr>
+            </thead>
+            <tbody id="myTable">
+                {% for recurso in page_obj %}
+                <tr>
+                    <td><div></div></td>
+                    <td>{{ recurso.division }}</td>
+                    <td><div style="cursor: pointer;" onclick="editItem({{ recurso.id }}, '{{ title }}', '{{ subtitle }}')"><img src="{% static 'images/edit_black.png' %}" alt="logo" style="width: 2vh;"></div></td>
+                    <td><div style="cursor: pointer;" onclick="deleteItem({{ recurso.id }}, '{{ subtitle }}', '{{ recurso.nombre_cientifico }}')"><img src="{% static 'images/delete_black.png' %}" alt="logo" style="width: 1.7vh;"></div></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    {% elif subtitle == "Géneros" %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Géneros</th>
+                    <th>Familia</th>
+                    {% comment %} Herramientas de Manejo {% endcomment %}
+                    <th>Editar</th>
+                    <th>Eliminar</th>
+                    {% comment %} Herramientas de Manejo {% endcomment %}
+                </tr>
+            </thead>
+            <tbody id="myTable">
+                {% for recurso in page_obj %}
+                <tr>
+                    <td><div></div></td>
+                    <td>{{ recurso.genero }}</td>
+                    <td>{{ recurso.familiy }}</td>
+                    <td><div style="cursor: pointer;" onclick="editItem({{ recurso.id }}, '{{ title }}', '{{ subtitle }}')"><img src="{% static 'images/edit_black.png' %}" alt="logo" style="width: 2vh;"></div></td>
+                    <td><div style="cursor: pointer;" onclick="deleteItem({{ recurso.id }}, '{{ subtitle }}', '{{ recurso.nombre_cientifico }}')"><img src="{% static 'images/delete_black.png' %}" alt="logo" style="width: 1.7vh;"></div></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+{% comment %} </div> {% endcomment %}

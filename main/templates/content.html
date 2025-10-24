@@ -1,0 +1,346 @@
+{% comment %} /////////////// Contenido de la página /////////////// {% endcomment %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+{% comment %} /////////////// Barra lateral ///////////////{% endcomment %}
+{% include 'navbar.html'%}
+{% comment %} /////////////// Barra lateral ///////////////{% endcomment %}
+
+<body>
+
+    {% comment %} /////////////// Modals Forms ///////////////{% endcomment %}
+    {% include 'modals.html'%}
+    {% comment %} /////////////// Modals Forms ///////////////{% endcomment %}
+
+        {% if editar %}
+        <div class="content-layaout" >
+            {% comment %} /////////////// Cargar los resultados de Familia /////////////// {% endcomment %}
+            
+                {% include 'manejo/editar.html' %}
+            {% comment %} /////////////// Cargar los resultados de Familia /////////////// {% endcomment %}
+
+
+
+        {% comment %} /////////////// Manejo de visualización y búsqueda /////////////// {% endcomment %}
+        {% else %}
+            <div class="content-layaout" >
+                <div class="title-container">
+                    <h1>{{ title }} {% if subtitle %} - {{ subtitle }} {% endif %}</h1>
+                        {% if title != "Historial" %}
+                            {% if title != "Usuarios" or user.is_staff %}
+                                <button type="button" class="btn green-gradient btn-custom-hover" data-toggle="modal" data-target="#myModal">
+                                    <img src="{% static 'images/plus_white.png' %}" alt="logo" style="width: 3vh; margin: 5px 5px 3px 0; ">
+                                    Añadir
+                                </button>
+                            {% else %}
+                            <div></div>
+                        {% endif %}
+
+                        {% else %}
+                            <div></div>
+                        {% endif %}
+                    </div>
+                <hr><br>
+            {% comment %} /////////////// Cargar los resultados de Familia /////////////// {% endcomment %}
+            {% if title == "Familias" %}
+                {% include 'plantas/familias.html' %}
+            {% comment %} /////////////// Cargar los resultados de Familia /////////////// {% endcomment %}
+
+
+            {% comment %} /////////////// Cargar los resultados de Especie /////////////// {% endcomment %}
+            {% elif title == "Especies" %}
+                {% include 'plantas/especies.html' %}
+            {% comment %} /////////////// Cargar los resultados de especie /////////////// {% endcomment %}
+
+
+            {% comment %} /////////////// Cargar los resultados de especie /////////////// {% endcomment %}
+            {% elif title == "Especímenes" %}   
+                {% include 'plantas/especimenes.html' %}
+            {% comment %} /////////////// Cargar los resultados de especie /////////////// {% endcomment %}
+
+
+            {% comment %} /////////////// Cargar los resultados de especie /////////////// {% endcomment %}
+            {% elif title == "Historial" %}   
+                {% include 'manejo/historial.html' %}
+            {% comment %} /////////////// Cargar los resultados de especie /////////////// {% endcomment %}
+
+
+            {% comment %} /////////////// Cargar los resultados de especie /////////////// {% endcomment %}
+            {% elif title == "Usuarios" %}   
+                {% include 'manejo/usuarios.html' %}
+            {% comment %} /////////////// Cargar los resultados de especie /////////////// {% endcomment %}
+            
+
+            {% comment %} /////////////// Cargar los resultados de especie /////////////// {% endcomment %}
+            {% elif title == "Galería" %}   
+                {% include 'manejo/galeria.html' %}
+            {% comment %} /////////////// Cargar los resultados de especie /////////////// {% endcomment %}
+
+
+            {% comment %} /////////////// Cargar los resultados de especie /////////////// {% endcomment %}
+            {% elif title == "Recursos" %}   
+                {% include 'manejo/recursos.html' %}
+            {% comment %} /////////////// Cargar los resultados de especie /////////////// {% endcomment %}
+
+
+            {% comment %} /////////////// Cargar los resultados de especie /////////////// {% endcomment %}
+            {% elif title == "Manejo" %}   
+                {% include 'manejo/manejo.html' %}
+            {% comment %} /////////////// Cargar los resultados de especie /////////////// {% endcomment %}
+            {% endif %}
+
+                <div class="nav-options">
+                    <div id="noResults" style="display: none; color: #a5242f;">
+                        No se encuentran resultados en esta página...<br><br>
+                    </div>
+                </div>
+        
+                {% comment %} /////////////// Menú selector de página /////////////// {% endcomment %}
+                <nav aria-label="Page navigation">
+                    <ul class="pagination justify-content-end flex-column"> 
+                        <div class="pagination">
+                                {% if page_obj.has_previous %}
+                                    {% if title == 'Recursos' or title == 'Manejo' %}
+                                        <a class="page-link green-gradient btn-custom-hover" href="?item={{ title }}&recurso={{ subtitle }}&page=1">&laquo; primera</a>
+                                        <a class="page-link green-gradient btn-custom-hover" href="?item={{ title }}&recurso={{ subtitle }}&page={{ page_obj.previous_page_number }}">anterior</a>
+                                    {% else %}
+                                        <a class="page-link green-gradient btn-custom-hover" href="?item={{ title }}&page=1">&laquo; primera</a>
+                                        <a class="page-link green-gradient btn-custom-hover" href="?item={{ title }}&page={{ page_obj.previous_page_number }}">anterior</a>
+                                    {% endif %}
+                                {% endif %}
+                    
+                                {% if page_obj.has_next %}
+                                    {% if title == 'Recursos' or title == 'Manejo' %}
+                                        <a class="page-link green-gradient btn-custom-hover" href="?item={{ title }}&recurso={{ subtitle }}&page={{ page_obj.next_page_number }}">siguiente</a>
+                                        <a class="page-link green-gradient btn-custom-hover" href="?item={{ title }}&recurso={{ subtitle }}&page={{ page_obj.paginator.num_pages }}">última &raquo;</a>
+                                    {% else %}
+                                        <a class="page-link green-gradient btn-custom-hover" href="?item={{ title }}&page={{ page_obj.next_page_number }}">siguiente</a>
+                                        <a class="page-link green-gradient btn-custom-hover" href="?item={{ title }}&page={{ page_obj.paginator.num_pages }}">última &raquo;</a>
+                                    {% endif %}
+                                {% endif %}
+                        </div>
+        
+                        <span class="current">
+                            Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
+                        </span>
+                    </ul>
+                </nav>
+                {% comment %} /////////////// Menú selector de página /////////////// {% endcomment %}
+                <br><br>
+            </div>
+
+        {% endif %}
+        <br>
+
+
+
+    <script>
+        document.getElementById('familiaForm').onsubmit = function() {
+            $('#myModal').modal('hide'); // Cierra el modal
+        };
+
+        document.getElementById('deleteform').onsubmit = function() {
+            $('#deleteModal').modal('hide'); // Cierra el modal
+        }; 
+
+        function hideit() {
+            $('#deleteModal').modal('hide');
+            $('#confirmModalFamilia').modal('hide');
+            $('#confirmModalEspecie').modal('show');
+        }
+        function showit(title) {
+            //$('#deleteModal').modal('hide');
+            if (title == 'familia'){
+                $('#confirmModalFamilia').modal('show');
+            }
+            else if (title == 'especie'){
+                $('#confirmModalEspecie').modal('show');
+            }
+        }
+    
+
+        function deleteItem(id, title, familiaOrCollector) {
+            // Establecer el ID del elemento a eliminar
+            document.getElementById('deleteId').value = id;
+            
+            // Construir la URL para el action del formulario
+            var actionUrl = "{% url 'main:delete' 0 'placeholder' %}".replace('0', id).replace('placeholder', title);
+            document.getElementById('deleteform').action = actionUrl;
+        
+            // Mostrar el modal de eliminación
+            $('#deleteModal').modal('show');
+        
+            // Limpiar el contenedor de dependientes
+            let dependientesDiv = document.getElementById('dependientes');
+            dependientesDiv.innerHTML = ''; // Limpiar contenido anterior
+        
+            const deleteButton = document.getElementById('Delete');
+        
+            if (title === 'Familias') {
+                // Filtrar las especies por la familia seleccionada
+                const especiesFiltradas = especiesList.filter(especie => especie.familia === familiaOrCollector);
+        
+                // Si hay especies en la familia, mostrarlas
+                if (especiesFiltradas.length > 0) {
+                    let h6 = document.createElement('h6');
+                    h6.textContent = 'Este elemento no puede ser eliminado gracias a las siguientes Especies:';
+                    dependientesDiv.appendChild(h6);
+        
+                    especiesFiltradas.forEach(function(especie) {
+                        let li = document.createElement('li');
+                        li.textContent = especie.nombre_cientifico; // Mostrar nombre científico
+                        dependientesDiv.appendChild(li);
+                    });
+        
+                    deleteButton.classList.add('not-allowed'); // Deshabilitar el botón de eliminar
+                } else {
+                    deleteButton.classList.remove('not-allowed'); // Habilitar el botón de eliminar
+                }
+            } else if (title === 'Especies') {
+                // Filtrar los colectores por la especie seleccionada
+                const colectoresFiltrados = especiesList.filter(especimen => especimen.species === familiaOrCollector);
+        
+                // Si hay colectores en la especie, mostrarlos
+                if (colectoresFiltrados.length > 0) {
+                    let h6 = document.createElement('h6');
+                    h6.textContent = 'Este elemento no puede ser eliminado gracias a los Especímenes de los siguientes Colectores:';
+                    dependientesDiv.appendChild(h6);
+        
+                    colectoresFiltrados.forEach(function(especimen) {
+                        let li = document.createElement('li');
+                        li.textContent = especimen.collector; // Mostrar nombre del colector
+                        dependientesDiv.appendChild(li);
+                    });
+        
+                    deleteButton.classList.add('not-allowed'); // Deshabilitar el botón de eliminar
+                } else {
+                    deleteButton.classList.remove('not-allowed'); // Habilitar el botón de eliminar
+                }
+            }
+        }
+
+        {% if dependientes %}
+        const especiesList = {{ dependientes|safe }};  // Lista de especies relacionadas con familias
+        {% else %}
+        const especiesList = [{ id: 0, nombre: 'No hay especies disponibles' }];  // Valor por defecto
+        {% endif %}
+        
+        function editItem(id, title, subtitle) {
+            if (subtitle == null){
+                // Redirección a edición
+                const baseUrl = window.location.origin + window.location.pathname; // URL base
+                window.location.href = `${baseUrl}?item=${encodeURIComponent(title)}&Id=${encodeURIComponent(id)}`;
+            }
+
+            else {
+                // Redirección a edición
+                const baseUrl = window.location.origin + window.location.pathname; // URL base
+                if (subtitle === 'Especies Excluidas') {
+                    subtitle = 'EspeciesExcluidas';
+                }
+                window.location.href = `${baseUrl}?item=${encodeURIComponent(title)}&recurso=${encodeURIComponent(subtitle)}&Id=${encodeURIComponent(id)}`;
+            }
+        }
+
+
+        {% comment %} // Variables globales para almacenar temporalmente los datos del formulario
+        var pendingFormData = {
+            name: null,
+            photo_name: null,
+            go_to: null
+        };
+
+        function relateImg(name, photo_name, go_to) {
+            // Almacena los datos temporalmente
+            pendingFormData = {
+                name: name,
+                photo_name: photo_name,
+                go_to: go_to
+            };
+            
+            // Muestra el modal de confirmación
+            $('#confirmModal').modal('show');
+        }
+
+        // Configura el evento para el botón de confirmación
+    document.getElementById('confirmSubmit').addEventListener('click', function() {
+        // Crea un nuevo formulario si no existe
+        var form = document.getElementById('syncForm');
+        if (!form) {
+            console.error('El formulario no existe en el DOM.');
+            return;
+        }
+        
+        // Limpia cualquier input previo (por si acaso)
+        var existingInputs = form.querySelectorAll('input[name="name"], input[name="photo_name"], input[name="go_to"]');
+        existingInputs.forEach(function(input) {
+            form.removeChild(input);
+        });
+        
+        // Crea los inputs con los datos almacenados
+        var inputName = document.createElement('input');
+        inputName.type = 'hidden';
+        inputName.name = 'name';
+        inputName.value = pendingFormData.name;
+        
+        var inputPhoto = document.createElement('input');
+        inputPhoto.type = 'hidden';
+        inputPhoto.name = 'photo_name';
+        inputPhoto.value = pendingFormData.photo_name;
+        
+        var inputCategory = document.createElement('input');
+        inputCategory.type = 'hidden';
+        inputCategory.name = 'go_to';
+        inputCategory.value = pendingFormData.go_to;
+        
+        // Agrega los inputs al formulario
+        form.appendChild(inputName);
+        form.appendChild(inputPhoto);
+        form.appendChild(inputCategory);
+        
+        // Envía el formulario
+        form.submit();
+        
+        // Cierra el modal
+        $('#confirmModal').modal('hide');
+    }); {% endcomment %}
+    
+        function relateImg(name, photo_name, go_to) {
+            // Crea un nuevo formulario si no existe
+            var form = document.getElementById('syncForm');
+            if (!form) {
+                console.error('El formulario no existe en el DOM.');
+                return;
+            }
+        
+            // Crea un input oculto para el nombre
+            var inputName = document.createElement('input');
+            inputName.type = 'hidden';
+            inputName.name = 'name';
+            inputName.value = name;
+        
+            // Crea un input oculto para la foto
+            var inputPhoto = document.createElement('input');
+            inputPhoto.type = 'hidden';
+            inputPhoto.name = 'photo_name';
+            inputPhoto.value = photo_name;
+        
+            // Crea un input oculto para la categoría
+            var inputCategory = document.createElement('input');
+            inputCategory.type = 'hidden';
+            inputCategory.name = 'go_to';
+            inputCategory.value = go_to;
+        
+            // Agrega los inputs al formulario
+            form.appendChild(inputName);
+            form.appendChild(inputPhoto);
+            form.appendChild(inputCategory);
+        
+            // Envía el formulario
+            form.submit();
+        } 
+    </script>
+    {{ redirect_to_login_immediately }}
+</body>
+</html>

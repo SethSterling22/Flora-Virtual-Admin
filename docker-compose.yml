@@ -1,0 +1,61 @@
+# Hecho por Sebastián Sterling :D
+# docker-compose up -d
+# Este compose debe correr con los dos Dockerfile tanto de flora como de Admin al lado
+# con las extensiones especificadas, del mismo modo se deben verificar los archivois y
+# los path de los volúmenes
+version: '3.8'
+
+services:
+  # Base de datos
+  db:
+    image: mariadb:latest
+    container_name: mariadb
+    environment:
+      # Cambiar las Variables !!!
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: mydatabase
+      MYSQL_USER: myuser
+      MYSQL_PASSWORD: mypassword
+    networks:
+      - flora-network
+      - flora-admin-network
+
+  # Flora Elverde
+  flora:
+    build:
+      context: .
+      dockerfile: Dockerfile.apache
+    container_name: flora
+    depends_on:
+      - db
+    volumes:
+      - /var/www/html/:/var/www/html/elverde/
+    networks:
+      - flora-network
+
+  # Servicio de administración
+  flora-admin:
+    build:
+      context: .
+      dockerfile: Dockerfile.python
+    container_name: flora-admin
+    depends_on:
+      - db
+    volumes:
+      - /var/www/html/elverde/fotos_vivas:/app/flora_admin/staticfiles/fotos_vivas
+      - /var/www/html/elverde/fotos_vivas:/app/flora_admin/static/fotos_vivas
+      # Hay problema con las fotos de especímenes, se deberían crear otros dos volúmenes y hacer otro manejo en la subida de imágenes!!!
+      # Terminan siendo 6 volúmenes más para el manejo de las fotos de especimenes, original, reducida y thumnail
+    networks:
+      - flora-admin-network
+
+
+# Declaración de las variables
+volumes:
+  fotos:
+
+networks:
+  flora-network:
+  flora-admin-network:
+
+# Hacer pruebas de las fotos!!!

@@ -1,0 +1,55 @@
+{% load static %}
+
+{% comment %} /////////////// Selector de búsqueda /////////////// {% endcomment %}
+<div class="options-layout">
+    <input class="form-control" id="myInput" type="text" placeholder="Buscar por Nombre de Familia..." autocomplete="off">
+
+    <button type="button" style="margin: 0 5px;" class="btn red-gradient options-layout" onclick="searchClean('{{ title }}')">
+        <img src="{% static 'images/escoba.png' %}" alt="logo" style="width: 3vh; margin: 5px 5px 3px 0; ">
+        Limpiar
+    </button>
+
+    <button type="button" class="btn green-gradient btn-custom-hover options-layout" onclick="searchIt('{{ title }}')">
+        <img src="{% static 'images/lupa.png' %}" alt="logo" style="width: 3vh; margin: 5px 5px 3px 0; ">
+        Buscar
+    </button>
+</div>
+<div id="options-search" class="dropdown-menu">
+    <div class="dropdown-item" data-value="">Buscar por Nombre de Familia...</div>
+    {% for index in familias %}
+        <div class="dropdown-item" data-value="{{ index.familia }}">{{ index.familia }}</div>
+        <div class="dropdown-item" id="no-Results" style="display: none;">No hay resultados</div>
+    {% endfor %}
+</div>
+{% comment %} /////////////// Selector de búsqueda /////////////// {% endcomment %}
+
+<p>Buscar entre {{ familias|length }} resultados...</p>
+<br>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Imagen</th>
+            <th>Familia</th>
+            <th>División</th>
+            <th>Comentario</th>
+            {% comment %} Herramientas de Manejo {% endcomment %}
+            <th>Editar</th>
+            <th>Eliminar</th>
+            {% comment %} Herramientas de Manejo {% endcomment %}
+        </tr>
+    </thead>
+    <tbody id="myTable">
+        {% comment %} {% for familia in familias %} {% endcomment %}
+        {% for familia in page_obj %}
+        <tr>
+            <td><img style="padding: 10px;" id="img" src="{% static 'fotos_vivas/' %}{{ familia.foto }}" alt="Foto de {{ familia.foto }}" onerror="this.onerror=null; this.src='{% static 'images/placeholder.jpeg' %}'"/></td>
+            <td><div>{{ familia.familia }}</div></td>
+            <td><div>{{ familia.division }}</div></td>
+            <td><div>{{ familia.comentario }}</div></td>
+            <td><div style="cursor: pointer;" onclick="editItem({{ familia.id }}, '{{ title }}')"><img src="{% static 'images/edit_black.png' %}" alt="logo" style="width: 2vh;"></div></td>
+            <td><div style="cursor: pointer;" onclick="deleteItem({{ familia.id }}, '{{ title }}', '{{ familia.familia }}')"><img src="{% static 'images/delete_black.png' %}" alt="logo" style="width: 1.7vh;"></div></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

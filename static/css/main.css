@@ -1,0 +1,308 @@
+aside {
+    height: 10vh;
+}
+
+body{
+    height: 100vh;
+    font-family: 'Roboto', sans-serif;
+    background-color: #eef6ee8a;
+}
+
+.title-container{
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.sidebar {
+    height: 100%;
+    width: 230px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    background-color: #f8f9fa;
+    padding-top: 20px;
+    padding:30px;
+    transition: width 0.3s, padding 0.3s;
+}
+
+.sidebar-hide{
+    height: 100%;
+    width: 14px;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 230px;
+    z-index: 100;
+    background-color: #f2f2f2;
+    padding-top: 20px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    transition: left 0.3s, padding 0.3s;
+    z-index: 1;
+}
+
+.sidebar-hide:hover{
+    transform: scale(1.1);
+    background-color: #f0f0f0;
+}
+
+
+.arrow {
+    border: solid gray;
+    border-width: 0 2px 2px 0;
+    display: inline-block;
+    padding: 3px;
+}
+
+.arrow {
+    border: solid rgb(86, 86, 86);
+    border-width: 0 3px 3px 0;
+}
+
+.right {
+transform: rotate(-45deg);
+-webkit-transform: rotate(-45deg);
+}
+
+.left {
+transform: rotate(135deg);
+-webkit-transform: rotate(135deg);
+}
+
+.content-layaout{
+    margin-left: 290px;
+    margin-right: 40px;
+    transition: width 0.3s, padding 0.3s;
+}
+
+
+/* ///////////// Acciones de media para sidebar ///////////// */
+@media screen and (max-width: 1200px) {
+    .sidebar {
+        width: 60px;
+        padding: 20px;
+    }
+
+    .left {
+        transform: rotate(-45deg);
+        -webkit-transform: rotate(-45deg);
+    }
+    
+    .sidebar-hide{
+        left: 60px;
+    }
+
+    .content-layaout{
+        margin-left: 110px;
+    }
+
+    .sidebar.collapsed .nav-options a span {
+        display: none;
+    }
+
+    .nav-link span{
+        display: none
+    }
+}
+/* ///////////// Acciones de media para sidebar ///////////// */
+
+
+.green-gradient{
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: -webkit-linear-gradient(to top, #59bd63, #47974f);
+
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: linear-gradient(to top, #59bd63, #47974f);
+    color: white;
+}
+
+.red-gradient{
+    background: -webkit-linear-gradient(to top, #cb2d3a, #a5242f);
+
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: linear-gradient(to top, #cb2d3a, #a5242f);
+    color: white;
+    transition: background-color 0.3s ease, transform 0.3s !important;
+}
+
+.red-gradient:hover{
+    background: -webkit-linear-gradient(to bottom, #cb2d3a, #a5242f);
+    transform: scale(1.007); 
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: linear-gradient(to bottom, #cb2d3a, #a5242f);
+    color: white;
+}
+
+.btn-custom-hover {
+    transition: background-color 0.3s ease, transform 0.3s !important;
+}
+
+.btn-custom-hover:hover {
+    cursor: pointer;
+    color: white;
+    transform: scale(1.007); 
+    background: linear-gradient(to top, #61cf6c, #4fa958, #4e8755);
+}
+
+.internal-shadow{
+    box-shadow:  0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra interna */
+}
+
+.nav-selector{
+    padding: 10px  !important;
+    color: #47974f !important;
+    border-color:rgb(216, 216, 216) !important;
+    background-color: white !important;
+    z-index: 1 !important;
+}
+
+/* ///////// Estilos de barra de opciones Navbar ///////// */
+.nav-options{
+    display: flex;
+    justify-items: center;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.nav-link{
+    width: 100%;
+    display: flex;
+    justify-items: center;
+    justify-content: left;
+    align-items: center;
+    padding: 1.5vh 0;
+    margin: 0.5vh 0;
+    font-size: 1.05rem;
+    position: relative;
+    text-decoration: none; 
+    color: #000;
+    border-bottom: 1px solid rgb(180, 180, 180);
+    transition: transform 0.3s ease;
+    z-index: 9999;
+}
+
+.nav-link:hover{
+    transform: scale(1.1);
+    color: #47974f;
+}
+
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 1px;
+    background-color: gray;
+    left: 50%;
+    bottom: -1px;
+    transition: width 0.4s ease, left 0.4s ease;
+}
+
+.nav-link:hover::after {
+    width: 100%; 
+    left: 0; 
+    background-color: black; 
+    
+}
+
+.nav-link.active{
+    font-weight: bold;
+    font-size: 1.1rem;
+    color: #47974f;
+}
+
+.options-container{
+    display: flex;
+    justify-items: center;
+    justify-content: space-between;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+}
+/* ///////// Estilos de barra de opciones Navbar ///////// */
+
+/* ///////// Restricciones de las tablas ///////// */
+tr{
+    max-height: 100px;
+}
+
+.card {
+    min-width: 230px; /* Ancho mínimo para las tarjetas */
+}
+
+td div{
+    padding: 10px;
+    max-height: 100px;
+    max-width: 400px;
+    overflow: auto;
+}
+
+
+td img{
+    width: 180px;
+    /* min-width: 100px; */
+    /* max-width: 100px; */
+    height: auto;
+    object-fit: cover;
+}
+/* ///////// Restricciones de las tablas ///////// */
+
+.pagination{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.page-link{
+    display: flex;
+    width: 100px;
+    justify-content: center;
+}
+
+
+.not-allowed {
+    pointer-events: none;
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+
+/* ///////// Estilos del searchbar ///////// */
+.options-layout{
+    display:flex;
+    align-items: center;
+    max-height: 40px;
+}
+
+#options-search {
+    display: none;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    max-height: 250px;
+    overflow-y: auto; 
+    position: absolute; 
+    background: white;
+
+    z-index: 1000;
+}
+.dropdown-item {
+    cursor: pointer;
+}
+.dropdown-item:hover {
+    background-color: #f8f9fa;
+}
+/* ///////// Estilos del searchbar ///////// */
+
+.form-check-input:checked {
+    background-color: #4fa958; /* Color verde */
+    border-color: #4fa958; /* Borde verde */
+}
+
+.form-check-input:checked:focus {
+    box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25); /* Sombra verde al enfocar */
+}

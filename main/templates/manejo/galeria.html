@@ -1,0 +1,60 @@
+{% load static %}
+
+{% comment %} /////////////// Selector de búsqueda /////////////// {% endcomment %}
+<div class="options-layout">
+    <input class="form-control" id="myInput" type="text" placeholder="Buscar Especie..." autocomplete="off">
+
+    <button type="button" style="margin: 0 5px;" class="btn red-gradient options-layout" onclick="searchClean('{{ title }}')">
+        <img src="{% static 'images/escoba.png' %}" alt="logo" style="width: 3vh; margin: 5px 5px 3px 0; ">
+        Limpiar
+    </button>
+
+    <button type="button" class="btn green-gradient btn-custom-hover options-layout" onclick="searchIt('{{ title }}')">
+        <img src="{% static 'images/lupa.png' %}" alt="logo" style="width: 3vh; margin: 5px 5px 3px 0; ">
+        Buscar
+    </button>
+</div>
+<div id="options-search" class="dropdown-menu">
+    <div class="dropdown-item" data-value="">Buscar Especie...</div>
+    {% for index in species_names %}
+        <div class="dropdown-item" data-value="{{ index.nombre_cientifico }}">{{ index.nombre_cientifico }}</div>
+        <div class="dropdown-item" id="no-Results" style="display: none;">No hay resultados</div>
+    {% endfor %}
+</div>
+<p>Buscar entre {{ species_names|length }} resultados...</p>
+
+<br><br>
+<div class="container-fluid">
+    <div class="row">
+        {% if page_obj|length > 0 %}
+            {% for obj in page_obj %}
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3  col-xxxl-2">
+                    <div class="card" style="width: 100%; margin-bottom: 50px;">
+                        <td><img style="padding: 10px;" id="img" src="{% static 'fotos_vivas/' %}{{ obj.photo_name }}" alt="Foto de {{ obj.photo_name }}" onerror="this.onerror=null; this.src='{% static 'images/placeholder.jpeg' %}'"/></td>
+                        <div class="card-body">
+                            <h5 class="card-title">{{ obj.species }}</h5>
+                            <p class="card-text">{{ obj.author1 }}</p>
+                            <div class="d-flex justify-content-between">
+                                <button type="button" class="btn red-gradient options-layout" onclick="deleteItem({{ obj.id }}, '{{ title }}')">
+                                    <img src="{% static 'images/delete_white.png' %}" alt="logo" style="width: 1.7vh; margin: 5px 5px 3px 0; ">
+                                    Eliminar
+                                </button>
+                                <button type="button" class="btn green-gradient btn-custom-hover options-layout" onclick="editItem({{ obj.id }}, '{{ title }}')">
+                                    <img src="{% static 'images/edit_white.png' %}" alt="logo" style="width: 2vh; margin: 5px 5px 3px 0; ">
+                                    Editar
+                                </button>
+                            </div>    
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+        <div class="nav-options">
+            <div style="color: #a5242f;">
+                No se encuentran resultados...<br><br>
+            </div>
+        </div>
+    {% endif %}
+
+    </div>
+</div>

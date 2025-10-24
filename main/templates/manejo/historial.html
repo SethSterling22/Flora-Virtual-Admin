@@ -1,0 +1,32 @@
+{% load static %}
+<input class="form-control" id="myInput" type="text" placeholder="Search..">
+<p>Buscar entre {{ historial|length }} resultados...</p>
+<br>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Acción</th>
+            <th>Tabla afectada</th>
+            <th>Id del objeto</th>
+            <th>Responsable</th>
+            <th>Fecha</th>
+            <th>Detalles</th>
+            <th>Cambios</th>
+        </tr>
+    </thead>
+    <tbody id="myTable">
+        {% comment %} {% for familia in familias %} {% endcomment %}
+        {% for historial in page_obj %}
+        <tr>
+            <td><div>{{ historial.accion }}</div></td>
+            <td><div>{{ historial.modelo_afectado }}</div></td>
+            <td><div>{{ historial.id_objeto }}</div></td>
+            <td><div>{{ historial.usuario }}</div></td>
+            <td><div>{{ historial.fecha }}</div></td>
+            <td><div>{{ historial.detalles }}</div></td>
+            <td><div>{{ historial.datos_formulario }}</div></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

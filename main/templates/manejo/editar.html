@@ -1,0 +1,110 @@
+{% load static %}
+<body>
+    <div class="content-layout">
+    {% comment %} Despliegue del título e identificador correspondiente al modelo que se quiere cambiar {% endcomment %}
+        <div class="options-layout" style="justify-content: space-between;">
+            {% comment %} Opciones generales {% endcomment %}
+            {% if title == 'Familias' %}
+            <h1>Editar Familia: {{ familia.familia }}</h1>
+            {% elif title == 'Especies' %}
+                <h1>Editar Especie: {{  especie.nombre_cientifico }}</h1>
+            {% elif title == 'Especímenes' %}
+                <h1>Editar Espécimen: {{ especimenes.species_authors }}</h1>
+            {% elif title == 'Galería' %}
+                <h1>Editar Imagen de: {{  especiesImg.species }}</h1>
+            
+            {% comment %} Opciones de Recursos {% endcomment %}
+            {% elif title == 'Recursos' %}
+                {% if subtitle == 'Glosario' %}
+                    <h1>Editar Recurso de {{ subtitle }}: {{ recurso.termino }}</h1>
+                {% elif subtitle == 'Especies Excluidas' %}
+                    <h1>Editar Recurso de {{ subtitle }}: {{ recurso.nombre_cientifico }}</h1>
+                {% elif subtitle == 'Literatura' %}
+                    <h1>Editar Recurso de {{ subtitle }}: {{ recurso.id }}</h1>
+                {% endif %}
+
+            {% comment %} Opciones de Manejo {% endcomment %}
+            {% elif title == 'Manejo' %}
+                {% if subtitle == 'Colectores' %}
+                    <h1>Editar Elemento de {{ subtitle }}: {{ recurso.colector }}</h1>
+                {% elif subtitle == 'Códigos' %}
+                    <h1>Editar Elemento de {{ subtitle }}: {{ recurso.codigo }}</h1>
+                {% elif subtitle == 'Divisiones' %}
+                    <h1>Editar Elemento de {{ subtitle }}: {{ recurso.division }}</h1>
+                {% elif subtitle == 'Géneros' %}
+                    <h1>Editar Elemento de {{ subtitle }}: {{ recurso.genero }}</h1>
+                {% endif %}
+            {% endif %}
+
+            {% comment %} Botón para volver {% endcomment %}
+            {% if title == 'Recursos' or title == 'Manejo' %}
+                <a href="?item={{title}}&recurso={{subtitle}}" class="btn red-gradient">
+            {% else %}
+                <a href="?item={{title}}" class="btn red-gradient">
+            {% endif %}
+                <img src="{% static 'images/go_back.png' %}" alt="logo" style="width: 3vh; margin: 5px 5px 3px 0; ">
+                Atrás
+            </a>
+        </div>
+        {% if title == 'Especímenes' %}
+            <br><h3>Recolectado por: {{ especimenes.collector }}</h3>
+        {% endif %}
+        <hr><br>
+
+        {% comment %} Renderizar el formulario de edición {% endcomment %}
+        <form method="post"  enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                {{ form.as_p }} 
+            </div><br>
+
+            <div class="options-layout" style="justify-content: flex-end;">
+                {% if title == 'Recursos' or title == 'Manejo' %}
+                    <a href="?item={{title}}&recurso={{subtitle}}&Id={{id}}" class="btn red-gradient " style="margin-right: 20px;">
+                {% else %}
+                    <a href="?item={{title}}&Id={{id}}" class="btn red-gradient " style="margin-right: 20px;">
+                {% endif %}
+                    <img src="{% static 'images/cancel_blk.png' %}" alt="logo" style="width: 3vh; margin: 5px 5px 3px 0; ">
+                    Cancelar Cambios
+                </a>
+                
+
+                <button type="sumbit" class="btn green-gradient btn-custom-hover"> 
+                    <img src="{% static 'images/guardar.png' %}" alt="logo" style="width: 3vh; margin: 5px 5px 3px 0; ">
+                    Guardar Cambios
+                </button>
+            </div>
+        </form>
+
+        {% if title == 'Galería' %}
+        <br><h5>Asociar imagen en:</h5><br>
+        <form method="post" action="{% url 'main:update' %}" enctype="multipart/form-data" id="syncForm">
+            {% csrf_token %}
+            {% if familiaRelated.foto == form.photo_name.value %}
+                <b>Imagen</b> ya asociada con la Familia {{ form.familiy.value }}
+            {% else %}
+                {% comment %} <div class="form-check" onclick="relateImg('{{ form.familiy.value }}', '{{ form.photo_name.value }}', 'Familias')"> {% endcomment %}
+                <div class="form-check" onclick="showit('familia')">
+                    <input class="form-check-input" type="checkbox" name="familia" value="{{ form.familiy.value }}" id="checkFamily">
+                    <label class="form-check-label" for="checkFamily">
+                        <b>Familia:</b> {{ form.familiy.value }}
+                    </label>
+                </div>
+            {% endif %}
+            <br><br>
+            {% if especieRelated.foto == form.photo_name.value %}
+                <b>Imagen</b> ya asociada con la Especie {{ form.species.value }} 
+            {% else %}
+                {% comment %} <div class="form-check" onclick="relateImg('{{ form.species.value }}', '{{ form.photo_name.value }}', 'Especies')"> {% endcomment %}
+                <div class="form-check" onclick="showit('especie')">
+                    <input class="form-check-input " type="checkbox" name="nombre_cientifico" value="{{ form.species.value }}" id="checkSpecie">
+                    <input type="hidden" name="familia" value="{{ form.familiy.value }}">
+                    <label class="form-check-label" for="checkSpecie">
+                        <b>Especie:</b> {{ form.species.value }}
+                    </label>
+                </div>
+            {% endif %}
+            </form>
+        {% endif %}
+    </div>
+</body>

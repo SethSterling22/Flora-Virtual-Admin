@@ -1,0 +1,56 @@
+{% load static %}
+
+{% comment %} /////////////// Selector de búsqueda /////////////// {% endcomment %}
+<div class="options-layout">
+    <input class="form-control" id="myInput" type="text" placeholder="Buscar por Nombre Científico..." autocomplete="off">
+
+    <button type="button" style="margin: 0 5px;" class="btn red-gradient options-layout" onclick="searchClean('{{ title }}')">
+        <img src="{% static 'images/escoba.png' %}" alt="logo" style="width: 3vh; margin: 5px 5px 3px 0; ">
+        Limpiar
+    </button>
+
+    <button type="button" class="btn green-gradient btn-custom-hover options-layout" onclick="searchIt('{{ title }}')">
+        <img src="{% static 'images/lupa.png' %}" alt="logo" style="width: 3vh; margin: 5px 5px 3px 0; ">
+        Buscar
+    </button>
+</div>
+<div id="options-search" class="dropdown-menu">
+    <div class="dropdown-item" data-value="">Buscar por Nombre Científico...</div>
+    {% for index in especies %}
+        <div class="dropdown-item" data-value="{{ index.nombre_cientifico }}">{{ index.nombre_cientifico }}</div>
+        <div class="dropdown-item" id="no-Results" style="display: none;">No hay resultados...</div>
+    {% endfor %}
+</div>
+{% comment %} /////////////// Selector de búsqueda /////////////// {% endcomment %}
+
+<p>Buscar entre {{ especimenes|length }} resultados...</p>
+<br>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Imagen</th>
+            <th>Nombre Científico</th>
+            <th>Colector Principal</th>
+            <th>Fecha</th>
+            <th>Localidad</th>
+            {% comment %} Herramientas de Manejo {% endcomment %}
+            <th>Editar</th>
+            <th>Eliminar</th>
+            {% comment %} Herramientas de Manejo {% endcomment %}
+        </tr>
+    </thead>
+    <tbody id="myTable">
+        {% for especimenes in page_obj %}
+        <tr>
+            <td><img style="padding: 10px;" src="{% static 'Images_elverde/thumb/JPEG/' %}{{ especimenes.photoname }}" alt="Foto de {{ especimenes.photoname }}" onerror="this.onerror=null; this.src='{% static 'images/placeholder.jpeg' %}'"/></td>
+            <td><div>{{ especimenes.species }}</div></td>
+            <td><div>{{ especimenes.collector }}</div></td>
+            <td><div>{{ especimenes.collected }}</div></td>
+            <td><div>{{ especimenes.geodata }}</div></td>
+            <td><div style="cursor: pointer;" onclick="editItem({{ especimenes.id }}, '{{ title }}')"><img src="{% static 'images/edit_black.png' %}" alt="logo" style="width: 2vh;"></div></td>
+            <td><div style="cursor: pointer;" onclick="deleteItem({{ especimenes.id }}, '{{ title }}', '{{ especimenes.species }}')"><img src="{% static 'images/delete_black.png' %}" alt="logo" style="width: 1.7vh;"></div></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

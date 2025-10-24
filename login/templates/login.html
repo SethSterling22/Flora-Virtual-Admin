@@ -1,0 +1,62 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="icon" type="image/png" href="{% static 'images/icono-flora.ico' %}">
+        <title>Login</title>
+        <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}"> 
+        <!-- Bootstrap CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    </head>
+
+    <body>
+        <section class="gradient-form" style="background-color: #eee;">
+            <div class="container py-5 h-100">
+            <div class="d-flex justify-content-center align-items-center h-100">
+
+                {% comment %} ////////// Mensaje de error ////////// {% endcomment %}
+                {% include 'error.html' %}
+                {% comment %} ////////// Mensaje de error ////////// {% endcomment %}
+
+                <div class="card col-5 rounded-4 text-black">
+                    <div class="row g-0">
+                    <div class="col">
+                        <div class="card-body p-md-5 mx-md-4">
+
+                        <div class="text-center">
+                            <img src="{% static 'images/logo-flora.png' %}" alt="logo"><br><br><br>
+                        </div>
+
+                        <form method="post">
+                            {% csrf_token %}
+                            <div data-mdb-input-init class="form-outline mb-4">
+                                <input type="email"  name="email" id="email" class="form-control" placeholder="ejemplo@ejemplo.com" required />
+                                <label class="form-label" for="email">Correo Electrónico</label>
+                            </div>
+                            
+                            <div data-mdb-input-init class="form-outline mb-2">
+                                <input type="password" name="password" id="password" class="form-control" placeholder="**********" required />
+                                <label class="form-label" for="password">Contraseña</label>
+                            </div>
+                            <br>
+                            <div class="text-center pt-1 mb-2 pb-1">
+                                <button data-mdb-button-init data-mdb-ripple-init class="w-100 btn btn-primary btn-block fa-lg gradient-custom-2 mb-3 btn-custom-hover" type="submit" style="border-color: #47974f;">
+                                    Iniciar Sesión
+                                </button>
+                            <br><br>
+                            {% comment %} <a class="text-muted" href="#!">¿Olvió su contraseña?</a> {% endcomment %}
+                            <p class="text-muted">v1.2</p>
+                            </div>
+                        </form>
+        
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+            </div>
+        </section>
+    </body>
+</html>

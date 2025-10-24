@@ -1,0 +1,100 @@
+.gradient-custom-2 {
+        
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: -webkit-linear-gradient(to right, #59bd63, #47974f, #45784B);
+    
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: linear-gradient(to top, #59bd63, #47974f, #45784B);
+    }
+    
+    @media (min-width: 768px) {
+    .gradient-form {
+    height: 100vh !important;
+    }
+    }
+    
+    @media (min-width: 769px) {
+    .gradient-custom-2 {
+    border-top-right-radius: .3rem;
+    border-bottom-right-radius: .3rem;
+    }
+    }
+
+.btn-custom-hover {
+    transition: background-color 0.3s ease, transform 0.3s !important;
+}
+
+.btn-custom-hover:hover {
+    cursor: pointer;
+    transform: scale(1.007); 
+    background: linear-gradient(to top, #61cf6c, #4fa958, #4e8755);
+}
+
+.text-center img {
+    width: 400px; 
+}
+
+@media (max-width: 1200px) {
+    .text-center img {
+        width: 300px; 
+    }
+}
+
+@media (max-width: 1000px) {
+    .text-center img {
+        width: 250px; 
+    }
+}
+
+@media (max-width: 768px) {
+    .text-center img {
+        width: 200px; 
+    }
+}
+
+/* /////////// Tarjetas de errores /////////// */
+/* by andrew-demchenk0 */
+.error {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    width: 420px;
+    padding: 14px;
+    display: flex;
+    position: absolute;
+    top: 5vh;
+    flex-direction: row;
+    align-items: center;
+    justify-content: start;
+    background: #FCE8DB;
+    border-radius: 5px;
+    box-shadow: 0px 0px 5px -3px #111;
+    z-index: 999;
+  }
+  
+  .error__icon {
+    width: 20px;
+    height: 20px;
+    transform: translateY(-2px);
+    margin-right: 8px;
+  }
+  
+  .error__icon path {
+    fill: #ec7067;
+  }
+  
+  .error__title {
+    font-weight: 500;
+    font-size: 1rem;
+    color: #711919;
+  }
+  
+  .error__close {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    margin-left: auto;
+  }
+  
+  .error__close path {
+    fill: #711922;
+  }
+/* /////////// Tarjetas de errores /////////// */

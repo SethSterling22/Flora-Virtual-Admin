@@ -1,0 +1,53 @@
+.gradient-custom-2 {
+        
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: -webkit-linear-gradient(to right, #59bd63, #47974f, #45784B);
+    
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: linear-gradient(to top, #59bd63, #47974f, #45784B);
+    }
+    
+    @media (min-width: 768px) {
+    .gradient-form {
+    height: 100vh !important;
+    }
+    }
+    
+    @media (min-width: 769px) {
+    .gradient-custom-2 {
+    border-top-right-radius: .3rem;
+    border-bottom-right-radius: .3rem;
+    }
+    }
+
+.btn-custom-hover {
+    transition: background-color 0.3s ease, transform 0.3s !important;
+}
+
+.btn-custom-hover:hover {
+    cursor: pointer;
+    transform: scale(1.007); 
+    background: linear-gradient(to top, #61cf6c, #4fa958, #4e8755);
+}
+
+.text-center img {
+    width: 400px; 
+}
+
+@media (max-width: 1200px) {
+    .text-center img {
+        width: 300px; 
+    }
+}
+
+@media (max-width: 1000px) {
+    .text-center img {
+        width: 250px; 
+    }
+}
+
+@media (max-width: 768px) {
+    .text-center img {
+        width: 200px; 
+    }
+}
